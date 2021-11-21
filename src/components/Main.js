@@ -18,7 +18,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onDeleteCard, onCardCli
             .catch((err) => {
                 console.log(err);
             });
-    });
+    }, []);
 
     React.useEffect(() => {
         api.getInfo()
@@ -30,52 +30,46 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onDeleteCard, onCardCli
             .catch((err) => {
                 console.log(err);
             });
-    });
+    }, []);
 
     return (
-        <div>
-            <main>
-                <section className='profile'>
-                    <div
-                        className='profile__avatar'
-                        onClick={onEditAvatar}
-                        style={{ backgroundImage: `url(${userAvatar})` }}
-                    ></div>
-                    <div className='profile__info'>
-                        <h1 className='profile__name'>{userName}</h1>
-                        <button
-                            type='button'
-                            className='profile__button profile__button_type_edit'
-                            onClick={onEditProfile}
-                        >
-                            <img
-                                className='profile__edit-icon'
-                                src={editPath}
-                                alt='Редактировать'
-                            />
-                        </button>
-                        <p className='profile__occupation'>{userDescription}</p>
-                    </div>
+        <main>
+            <section className='profile'>
+                <div
+                    className='profile__avatar'
+                    onClick={onEditAvatar}
+                    style={{ backgroundImage: `url(${userAvatar})` }}
+                ></div>
+                <div className='profile__info'>
+                    <h1 className='profile__name'>{userName}</h1>
                     <button
                         type='button'
-                        className='profile__button profile__button_type_add'
-                        onClick={onAddPlace}
+                        className='profile__button profile__button_type_edit'
+                        onClick={onEditProfile}
                     >
-                        <img className='profile__add-icon' src={addPath} alt='Добавить' />
+                        <img className='profile__edit-icon' src={editPath} alt='Редактировать' />
                     </button>
-                </section>
-                <section className='cards'>
-                    {cards.map((card) => (
-                        <Card
-                            key={card._id}
-                            card={card}
-                            onDeleteCard={onDeleteCard}
-                            onClick={onCardClick}
-                        />
-                    ))}
-                </section>
-            </main>
-        </div>
+                    <p className='profile__occupation'>{userDescription}</p>
+                </div>
+                <button
+                    type='button'
+                    className='profile__button profile__button_type_add'
+                    onClick={onAddPlace}
+                >
+                    <img className='profile__add-icon' src={addPath} alt='Добавить' />
+                </button>
+            </section>
+            <section className='cards'>
+                {cards.map((card) => (
+                    <Card
+                        key={card._id}
+                        card={card}
+                        onDeleteCard={onDeleteCard}
+                        onClick={onCardClick}
+                    />
+                ))}
+            </section>
+        </main>
     );
 }
 

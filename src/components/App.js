@@ -18,8 +18,7 @@ function App() {
             isProfilePopupOpened ||
             isAddPlacePopupOpen ||
             isEditAvatarPopupOpen ||
-            isDeletePopupOpen ||
-            isBigCardPopupOpen === true
+            isDeletePopupOpen === true
         ) {
             function handleEsc(event) {
                 if (event.key === 'Escape') {
@@ -104,7 +103,6 @@ function App() {
                                 required
                                 minLength='2'
                                 maxLength='40'
-                                value='Жак-Ив Кусто'
                             />
                             <span className='popup__error profile-name-input-error'></span>
                         </label>
@@ -118,7 +116,6 @@ function App() {
                                 required
                                 minLength='2'
                                 maxLength='200'
-                                value='Исследователь океана'
                             />
                             <span className='popup__error profile-occupation-input-error'></span>
                         </label>
