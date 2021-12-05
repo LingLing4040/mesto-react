@@ -5,6 +5,17 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, handlePopupClick }) {
     const [cardName, setCardName] = React.useState('');
     const [cardLink, setCardLink] = React.useState('');
 
+    React.useEffect(() => {
+        if (isOpen) {
+            clearInputs();
+        }
+    }, [isOpen]);
+
+    function clearInputs() {
+        setCardLink('');
+        setCardName('');
+    }
+
     function handleChangeCardName(e) {
         setCardName(e.target.value);
     }

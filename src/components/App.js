@@ -20,22 +20,13 @@ function App() {
     const [cardToDelete, setCardToDelete] = React.useState({});
     const [cards, setCards] = React.useState([]);
 
-    const [currentUser, setCurrentUser] = React.useState('');
+    const [currentUser, setCurrentUser] = React.useState({});
 
     React.useEffect(() => {
-        api.getInitialCards()
-            .then((res) => {
-                setCards(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
-
-    React.useEffect(() => {
-        api.getInfo()
-            .then((res) => {
-                setCurrentUser(res);
+        Promise.all([api.getInfo(), api.getInitialCards()])
+            .then(([user, cards]) => {
+                setCards(cards);
+                setCurrentUser(user);
             })
             .catch((err) => {
                 console.log(err);
@@ -76,6 +67,8 @@ function App() {
         setIsEditAvatarPopupOpen(false);
         setIsDeletePopupOpen(false);
         setIsBigCardPopupOpen(false);
+        setCardToDelete({});
+        setSelectedCard({});
     }
 
     function handleEditProfileClick() {
@@ -164,53 +157,51 @@ function App() {
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
-            <div className='App'>
-                <div className='page'>
-                    <div className='content'>
-                        <Header />
-                        <Main
-                            onEditProfile={handleEditProfileClick}
-                            onAddPlace={handleAddPlaceClick}
-                            onEditAvatar={handleEditAvatarClick}
-                            onDeleteCard={handleDeleteButtonClick}
-                            onCardClick={handleCardClick}
-                            cards={cards}
-                            onCardLike={handleCardLike}
-                        />
-                        <Footer />
-                        <ProfilePopup
-                            isOpen={isProfilePopupOpened}
-                            onClose={closeAllPopups}
-                            onUpdateUser={handleUpdateUser}
-                            handlePopupClick={handlePopupClick}
-                        />
-                        <EditAvatarPopup
-                            isOpen={isEditAvatarPopupOpen}
-                            onClose={closeAllPopups}
-                            onUpdateAvatar={handleUpdateAvatar}
-                            handlePopupClick={handlePopupClick}
-                        />
-                        <AddPlacePopup
-                            isOpen={isAddPlacePopupOpen}
-                            onClose={closeAllPopups}
-                            onAddPlace={handleAddPlaceSubmit}
-                            handlePopupClick={handlePopupClick}
-                        />
-                        <ImagePopup
-                            card={selectedCard}
-                            onClose={closeAllPopups}
-                            isOpened={isBigCardPopupOpen}
-                            handlePopupClick={handlePopupClick}
-                        />
+            <div className='page'>
+                <div className='content'>
+                    <Header />
+                    <Main
+                        onEditProfile={handleEditProfileClick}
+                        onAddPlace={handleAddPlaceClick}
+                        onEditAvatar={handleEditAvatarClick}
+                        onDeleteCard={handleDeleteButtonClick}
+                        onCardClick={handleCardClick}
+                        cards={cards}
+                        onCardLike={handleCardLike}
+                    />
+                    <Footer />
+                    <ProfilePopup
+                        isOpen={isProfilePopupOpened}
+                        onClose={closeAllPopups}
+                        onUpdateUser={handleUpdateUser}
+                        handlePopupClick={handlePopupClick}
+                    />
+                    <EditAvatarPopup
+                        isOpen={isEditAvatarPopupOpen}
+                        onClose={closeAllPopups}
+                        onUpdateAvatar={handleUpdateAvatar}
+                        handlePopupClick={handlePopupClick}
+                    />
+                    <AddPlacePopup
+                        isOpen={isAddPlacePopupOpen}
+                        onClose={closeAllPopups}
+                        onAddPlace={handleAddPlaceSubmit}
+                        handlePopupClick={handlePopupClick}
+                    />
+                    <ImagePopup
+                        card={selectedCard}
+                        onClose={closeAllPopups}
+                        isOpened={isBigCardPopupOpen}
+                        handlePopupClick={handlePopupClick}
+                    />
 
-                        <DeletePopup
-                            onClose={closeAllPopups}
-                            isOpen={isDeletePopupOpen}
-                            handlePopupClick={handlePopupClick}
-                            onConfirm={handleCardDelete}
-                            card={cardToDelete}
-                        />
-                    </div>
+                    <DeletePopup
+                        onClose={closeAllPopups}
+                        isOpen={isDeletePopupOpen}
+                        handlePopupClick={handlePopupClick}
+                        onConfirm={handleCardDelete}
+                        card={cardToDelete}
+                    />
                 </div>
             </div>
         </CurrentUserContext.Provider>

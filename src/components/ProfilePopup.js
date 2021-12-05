@@ -8,7 +8,7 @@ function ProfilePopup({ isOpen, onClose, onUpdateUser, handlePopupClick }) {
     React.useEffect(() => {
         setName(currentUser.name);
         setDescription(currentUser.about);
-    }, [currentUser]);
+    }, [currentUser, isOpen]);
 
     const [name, setName] = React.useState(currentUser.name);
     const [description, setDescription] = React.useState(currentUser.about);
