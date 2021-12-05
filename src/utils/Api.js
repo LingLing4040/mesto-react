@@ -39,25 +39,18 @@ class Api {
         }).then(this._returnData);
     }
 
-    likeCard(id) {
-        return fetch(`${this.baseUrl}/cards/likes/${id}`, {
-            method: 'PUT',
-            headers: this.headers,
-        }).then(this._returnData);
-    }
-
-    dislikeCard(id) {
-        return fetch(`${this.baseUrl}/cards/likes/${id}`, {
-            method: 'DELETE',
-            headers: this.headers,
-        }).then(this._returnData);
-    }
-
     updateAvatar(newAvatar) {
         return fetch(`${this.baseUrl}/users/me/avatar`, {
             method: 'PATCH',
             headers: this.headers,
             body: JSON.stringify(newAvatar),
+        }).then(this._returnData);
+    }
+
+    changeLikeCardStatus(id, isLiked) {
+        return fetch(`${this.baseUrl}/cards/likes/${id}`, {
+            method: isLiked ? 'PUT' : 'DELETE',
+            headers: this.headers,
         }).then(this._returnData);
     }
 

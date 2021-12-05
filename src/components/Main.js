@@ -1,36 +1,19 @@
 import React from 'react';
 import editPath from '../images/edit-button.svg';
 import addPath from '../images/add.svg';
-import api from '../utils/Api';
 import Card from './Card';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar, onDeleteCard, onCardClick }) {
-    const [userName, setUserName] = React.useState('');
-    const [userDescription, setUserDescription] = React.useState('');
-    const [userAvatar, setUserAvatar] = React.useState('');
-    const [cards, setCards] = React.useState([]);
-
-    React.useEffect(() => {
-        api.getInitialCards()
-            .then((res) => {
-                setCards(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
-
-    React.useEffect(() => {
-        api.getInfo()
-            .then((res) => {
-                setUserName(res.name);
-                setUserDescription(res.about);
-                setUserAvatar(res.avatar);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+function Main({
+    onEditProfile,
+    onAddPlace,
+    onEditAvatar,
+    onDeleteCard,
+    onCardClick,
+    cards,
+    onCardLike,
+}) {
+    const currentUser = React.useContext(CurrentUserContext);
 
     return (
         <main>
@@ -38,10 +21,10 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onDeleteCard, onCardCli
                 <div
                     className='profile__avatar'
                     onClick={onEditAvatar}
-                    style={{ backgroundImage: `url(${userAvatar})` }}
+                    style={{ backgroundImage: `url(${currentUser.avatar})` }}
                 ></div>
                 <div className='profile__info'>
-                    <h1 className='profile__name'>{userName}</h1>
+                    <h1 className='profile__name'>{currentUser.name}</h1>
                     <button
                         type='button'
                         className='profile__button profile__button_type_edit'
@@ -49,7 +32,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onDeleteCard, onCardCli
                     >
                         <img className='profile__edit-icon' src={editPath} alt='Редактировать' />
                     </button>
-                    <p className='profile__occupation'>{userDescription}</p>
+                    <p className='profile__occupation'>{currentUser.about}</p>
                 </div>
                 <button
                     type='button'
@@ -66,6 +49,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onDeleteCard, onCardCli
                         card={card}
                         onDeleteCard={onDeleteCard}
                         onClick={onCardClick}
+                        onCardLike={onCardLike}
                     />
                 ))}
             </section>
