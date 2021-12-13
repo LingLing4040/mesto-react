@@ -9,4 +9,4 @@
 В последней версии страницы была добавлена возможность редактировать информацию профиля на странице, добавлять и удалять карточки, ставить лайки.
 
 Ссылка на Guthub Pages:
-https://lingling4040.github.io/mesto-react/
+https://lingling4040.github.io/react-mesto-auth/
